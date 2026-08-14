@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>RyzaEsPatcher.App</RootNamespace>
+    <AssemblyName>RyzaDX-ParcheES</AssemblyName>
+    <Version>1.0.0</Version>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>..\..\assets\icono.ico</ApplicationIcon>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <!-- `dotnet publish` deja el ejecutable en out\ sin tener que pasar -o. -->
+    <PublishDir>$(MSBuildThisFileDirectory)..\..\out\</PublishDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\assets\donar-con-paypal.png" LogicalName="donar-con-paypal.png" />
+    <EmbeddedResource Include="..\..\assets\icono.ico" LogicalName="icono.ico" />
+  </ItemGroup>
+
+  <!--
+    Los parches solo existen en la máquina del autor, tras ejecutar MakePatches.
+    Sin ellos la aplicación compila igual y avisa de que es una compilación de desarrollo.
+  -->
+  <ItemGroup Condition="Exists('Assets\patch\manifest.json')">
+    <EmbeddedResource Include="Assets\patch\manifest.json" LogicalName="patch.manifest.json" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('Assets\patch\patches')">
+    <EmbeddedResource Include="Assets\patch\patches\*.hdiff">
+      <LogicalName>patch.%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RyzaEsPatcher.Core\RyzaEsPatcher.Core.csproj" />
+  </ItemGroup>
+
+</Project>

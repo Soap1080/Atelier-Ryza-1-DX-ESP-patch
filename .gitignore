@@ -1,0 +1,21 @@
+.claude/
+
+CLAUDE.md
+
+# Contenido del juego: NUNCA se versiona
+pak/
+pak es/
+Traducción A21/
+*.PAK
+*.pak
+Atelier_Ryza*.exe
+
+# Parches generados: se embeben al compilar, no van en git
+src/RyzaEsPatcher.App/Assets/patch/
+*.hdiff
+
+# Build de .NET
+bin/
+obj/
+out/
+*.user
